@@ -1,10 +1,9 @@
-
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, Search, Phone, Mail, MapPin, User } from "lucide-react";
+import { Plus, Search, User } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import ContactList from "@/components/ContactList";
 import { Contact } from "@/types/contact";
@@ -17,7 +16,7 @@ const Index = () => {
       phone: "+1 (555) 123-4567",
       email: "john.doe@email.com",
       address: "123 Main St, New York, NY 10001",
-      notes: "CEO at Tech Company"
+      notes: "CEO at Tech Company",
     },
     {
       id: "2",
@@ -25,7 +24,7 @@ const Index = () => {
       phone: "+1 (555) 987-6543",
       email: "jane.smith@email.com",
       address: "456 Oak Ave, Los Angeles, CA 90210",
-      notes: "Designer and friend"
+      notes: "Designer and friend",
     },
     {
       id: "3",
@@ -33,10 +32,10 @@ const Index = () => {
       phone: "+1 (555) 456-7890",
       email: "mike.j@email.com",
       address: "789 Pine St, Chicago, IL 60601",
-      notes: "Business partner"
-    }
+      notes: "Business partner",
+    },
   ]);
-  
+
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [editingContact, setEditingContact] = useState<Contact | null>(null);
@@ -52,7 +51,6 @@ const Index = () => {
         }
       }
     } catch (error) {
-      // If parsing fails, ignore and continue with defaults
       console.error("Failed to load contacts from localStorage", error);
     }
   }, []);
@@ -66,16 +64,17 @@ const Index = () => {
     }
   }, [contacts]);
 
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    contact.phone.includes(searchTerm)
+  const filteredContacts = contacts.filter(
+    (contact) =>
+      contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      contact.phone.includes(searchTerm)
   );
 
   const handleAddContact = (contactData: Omit<Contact, "id">) => {
     const newContact: Contact = {
       ...contactData,
-      id: Date.now().toString()
+      id: Date.now().toString(),
     };
     setContacts([...contacts, newContact]);
     setShowForm(false);
@@ -83,18 +82,20 @@ const Index = () => {
 
   const handleEditContact = (contactData: Omit<Contact, "id">) => {
     if (editingContact) {
-      setContacts(contacts.map(contact =>
-        contact.id === editingContact.id
-          ? { ...contactData, id: editingContact.id }
-          : contact
-      ));
+      setContacts(
+        contacts.map((contact) =>
+          contact.id === editingContact.id
+            ? { ...contactData, id: editingContact.id }
+            : contact
+        )
+      );
       setEditingContact(null);
       setShowForm(false);
     }
   };
 
   const handleDeleteContact = (id: string) => {
-    setContacts(contacts.filter(contact => contact.id !== id));
+    setContacts(contacts.filter((contact) => contact.id !== id));
   };
 
   const startEdit = (contact: Contact) => {
@@ -119,7 +120,9 @@ const Index = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold">Contact Manager</h1>
-                <p className="text-muted-foreground">Manage your personal and professional contacts</p>
+                <p className="text-muted-foreground">
+                  Manage your personal and professional contacts
+                </p>
               </div>
             </div>
             <Button onClick={() => setShowForm(true)} className="gap-2">
@@ -151,7 +154,9 @@ const Index = () => {
                 <CardContent>
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="search">Search by name, email, or phone</Label>
+                      <Label htmlFor="search">
+                        Search by name, email, or phone
+                      </Label>
                       <Input
                         id="search"
                         placeholder="Type to search..."
