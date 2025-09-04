@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,6 +40,31 @@ const Index = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [editingContact, setEditingContact] = useState<Contact | null>(null);
+
+  // Hydrate contacts from localStorage on first load
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("contacts");
+      if (stored) {
+        const parsed: Contact[] = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          setContacts(parsed);
+        }
+      }
+    } catch (error) {
+      // If parsing fails, ignore and continue with defaults
+      console.error("Failed to load contacts from localStorage", error);
+    }
+  }, []);
+
+  // Persist contacts to localStorage on change
+  useEffect(() => {
+    try {
+      localStorage.setItem("contacts", JSON.stringify(contacts));
+    } catch (error) {
+      console.error("Failed to save contacts to localStorage", error);
+    }
+  }, [contacts]);
 
   const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
