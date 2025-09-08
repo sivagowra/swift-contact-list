@@ -5,22 +5,3 @@ services:
     image: swift-contact-list-app
     ports:
       - "8080:8080"
-    depends_on:
-      - db
-
-  db:
-    image: mysql:8
-    environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: swift_db
-    ports:
-      - "3306:3306"
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: db
-      PMA_USER: root
-      PMA_PASSWORD: root123
-    ports:
-      - "8081:80"
